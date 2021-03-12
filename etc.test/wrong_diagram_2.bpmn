@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_10easkc" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="Process_Wrong_2" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_WITHOUT_OUTPUT" />
+    <bpmn:endEvent id="EndEvent_1hxbncf">
+      <bpmn:incoming>SequenceFlow_1spb8uc</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1spb8uc" sourceRef="Task_WITHOUT_INPUT" targetRef="EndEvent_1hxbncf" />
+    <bpmn:userTask id="Task_WITHOUT_INPUT" name="Test">
+      <bpmn:outgoing>SequenceFlow_1spb8uc</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Wrong_2">
+      <bpmndi:BPMNEdge id="SequenceFlow_1spb8uc_di" bpmnElement="SequenceFlow_1spb8uc">
+        <di:waypoint x="580" y="240" />
+        <di:waypoint x="632" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_WITHOUT_OUTPUT">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1hxbncf_di" bpmnElement="EndEvent_1hxbncf">
+        <dc:Bounds x="632" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_02x9bli_di" bpmnElement="Task_WITHOUT_INPUT">
+        <dc:Bounds x="480" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

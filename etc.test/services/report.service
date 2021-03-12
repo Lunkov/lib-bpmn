@@ -1,0 +1,6 @@
+code: srv-report
+url:
+ - localhost:24334
+type: grpc
+timeout: 1000
+

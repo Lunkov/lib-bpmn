@@ -124,33 +124,38 @@ func (b *Info) Validate(s *Services) (bool, string) {
   for _, pr := range b.Process {
     for _, se := range pr.StartEvent {
       if(len(se.Outgoing) < 1) {
-        return false, fmt.Sprintf("ERR: StartEvent(%s) no has outgoing", se.Id)
+        return false, fmt.Sprintf("ERR: StartEvent(%s.%s) no has outgoing", pr.Id, se.Id)
       }
     }
     for _, eg := range pr.ExclusiveGateway {
       if(len(eg.Outgoing) < 1) {
-        return false, fmt.Sprintf("ERR: ExclusiveGateway(%s) no has outgoing", eg.Id)
+        return false, fmt.Sprintf("ERR: ExclusiveGateway(%s.%s) no has outgoing", pr.Id, eg.Id)
       }
     }
     for _, eg := range pr.ParallelGateway {
       if(len(eg.Outgoing) < 1) {
-        return false, fmt.Sprintf("ERR: ParallelGateway(%s) no has outgoing", eg.Id)
+        return false, fmt.Sprintf("ERR: ParallelGateway(%s.%s) no has outgoing", pr.Id, eg.Id)
       }
     }
     for _, st := range pr.ServiceTask {
-      fmt.Printf("ERR: ServiceTask(%s)", st.Id)
       if(len(st.Outgoing) < 1) {
-        return false, fmt.Sprintf("ERR: ServiceTask(%s) no has outgoing", st.Id)
+        return false, fmt.Sprintf("ERR: ServiceTask(%s.%s) no has outgoing", pr.Id, st.Id)
+      }
+      if s == nil || (s != nil && !s.ExistsByCODE(st.Topic)) {
+        return false, fmt.Sprintf("ERR: ServiceTask(%s.%s) not found service '%s'", pr.Id, st.Id, st.Topic)
       }
     }
     for _, st := range pr.SendTask {
       if(len(st.Outgoing) < 1) {
-        return false, fmt.Sprintf("ERR: SendTask(%s) no has outgoing", st.Id)
+        return false, fmt.Sprintf("ERR: SendTask(%s.%s) no has outgoing", pr.Id, st.Id)
+      }
+      if s == nil || (s != nil && !s.ExistsByCODE(st.Topic)) {
+        return false, fmt.Sprintf("ERR: SendTask(%s.%s) not found service '%s'", pr.Id, st.Id, st.Topic)
       }
     }
     for _, ut := range pr.UserTask {
       if(len(ut.Outgoing) < 1) {
-        return false, fmt.Sprintf("ERR: UserTask(%s) no has outgoing", ut.Id)
+        return false, fmt.Sprintf("ERR: UserTask(%s.%s) no has outgoing", pr.Id, ut.Id)
       }
     }
   }

@@ -1,0 +1,6 @@
+code: srv-sendmail
+urls:
+ - localhost:24333
+type: grpc
+timeout: 1000
+

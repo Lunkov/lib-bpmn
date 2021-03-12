@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0uaem5g" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="Process_NewUser" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_02636nk" sourceRef="StartEvent_1" targetRef="Create_Email" />
+    <bpmn:serviceTask id="Create_Email" name="Make Mail Body For New User" camunda:type="external" camunda:topic="srv-report">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="REPORT_TEMPLATE">hello</camunda:inputParameter>
+          <camunda:inputParameter name="REPORT_RESULT_FORMAT">HTML</camunda:inputParameter>
+          <camunda:inputParameter name="REPORT_RESULT_BUFFER">SEND_MAIL_BODY_HTML</camunda:inputParameter>
+          <camunda:inputParameter name="SERVER_NAME">DigitalEconomy.Space</camunda:inputParameter>
+          <camunda:inputParameter name="SERVER_URL">https://digitaleconomy.space</camunda:inputParameter>
+          <camunda:inputParameter name="USER">{{PROCESS_INPUT_DATA}}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_02636nk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vyl9np</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sendTask id="Send_Email" name="Send EMail Message &#34;Hello&#34;" camunda:type="external" camunda:topic="srv-sendmail">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="SEND_MAIL_TO">{{USER_EMAIL}}</camunda:inputParameter>
+          <camunda:inputParameter name="SEND_MAIL_SUBJECT">Подтверждение регистрации на сайте DigitalEconomy.Space</camunda:inputParameter>
+          <camunda:inputParameter name="SEND_MAIL_BODY_HTML" />
+          <camunda:inputParameter name="SEND_MAIL_FROM">notify_mail</camunda:inputParameter>
+          <camunda:inputParameter name="USER">{{PROCESS_INPUT_DATA}}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1vyl9np</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mbsrud</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sequenceFlow id="Flow_0mbsrud" sourceRef="Send_Email" targetRef="Event_1wddnee" />
+    <bpmn:startEvent id="StartEvent_1" camunda:initiator="nats">
+      <bpmn:outgoing>Flow_02636nk</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1c8rfj4" messageRef="Message_1oos9wq" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1vyl9np" sourceRef="Create_Email" targetRef="Send_Email" />
+    <bpmn:endEvent id="Event_1wddnee">
+      <bpmn:incoming>Flow_0mbsrud</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_1oos9wq" name="user.create" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_NewUser">
+      <bpmndi:BPMNEdge id="Flow_1vyl9np_di" bpmnElement="Flow_1vyl9np">
+        <di:waypoint x="390" y="117" />
+        <di:waypoint x="460" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mbsrud_di" bpmnElement="Flow_0mbsrud">
+        <di:waypoint x="560" y="117" />
+        <di:waypoint x="622" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02636nk_di" bpmnElement="Flow_02636nk">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="290" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0p2k4j2_di" bpmnElement="Create_Email">
+        <dc:Bounds x="290" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0aroq6l_di" bpmnElement="Send_Email">
+        <dc:Bounds x="460" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1eab901_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1y9qj4s_di" bpmnElement="Event_1wddnee">
+        <dc:Bounds x="622" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
